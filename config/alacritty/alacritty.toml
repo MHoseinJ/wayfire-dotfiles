@@ -1,0 +1,12 @@
+[terminal]
+shell = "fish"
+
+[font]
+normal = { family = "UbuntuMono Nerd Font Mono" }
+size = 14.0
+
+[window]
+opacity = 1
+padding = {x=10,y=10}
+[colors.primary]
+background = "#151510"

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WALLPAPER_DIR="${WAYFIRE_WALLPAPER_DIR:-$HOME/Wallpapers}"
+
+if [[ ! -d "$WALLPAPER_DIR" ]]; then
+    notify-send "Wallpaper picker"         "Wallpaper directory not found: $WALLPAPER_DIR"
+    exit 1
+fi
+
+mapfile -d '' -t files < <(
+    find "$WALLPAPER_DIR" -maxdepth 1 -type f         \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png'            -o -iname '*.webp' -o -iname '*.gif' \)         -print0 | sort -z
+)
+
+((${#files[@]})) || {
+    notify-send "Wallpaper picker"         "No images found in $WALLPAPER_DIR"
+    exit 1
+}
+
+selected="$(
+    for file in "${files[@]}"; do
+        name="${file##*/}"
+        name="${name%.*}"
+        printf '%s\0icon\x1f%s\n' "$name" "$file"
+    done |
+        rofi -dmenu -i -show-icons -no-custom -format i             -config "$HOME/.config/rofi/wallpaper.rasi"             -p "Wallpaper"
+)" || exit 0
+
+[[ "$selected" =~ ^[0-9]+$ ]] || exit 0
+awww img "${files[$selected]}" --transition-type simple

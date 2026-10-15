@@ -1,0 +1,41 @@
+@import "/usr/share/rofi/themes/config.rasi"
+
+configuration {
+    show-icons: true;
+}
+
+window {
+    width: 900px;
+    border: none;
+}
+
+listview {
+    columns: 3;
+    lines: 2;
+    layout: vertical;
+    fixed-columns: true;
+    fixed-height: true;
+    dynamic: false;
+    scrollbar: false;
+}
+
+element {
+    orientation: vertical;
+    spacing: 6px;
+    padding: 8px;
+}
+
+element-icon {
+    enabled: true;
+    size: 140px;
+}
+
+element-text {
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @foreground;
+}

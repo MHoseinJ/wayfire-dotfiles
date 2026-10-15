@@ -1,0 +1,380 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CONFIG="$HOME/.config/wayfire/wayfire.ini"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/wayfire"
+mkdir -p "$STATE_DIR"
+STATE_FILE="$STATE_DIR/power-state"
+
+# ---------------------------------------------------------------------------
+# Plugin profiles
+# ---------------------------------------------------------------------------
+
+LIGHT_PLUGINS='
+  alpha
+  autostart
+  command
+  decoration
+  expo
+  fast-switcher
+  foreign-toplevel
+  grid
+  gtk-shell
+  idle
+  ipc
+  ipc-rules
+  move
+  oswitch
+  place
+  resize
+  session-lock
+  shortcuts-inhibit
+  vswitch
+  wayfire-shell
+  window-rules
+  wm-actions
+'
+
+NORMAL_PLUGINS='
+  alpha
+  animate
+  autostart
+  command
+  decoration
+  expo
+  fast-switcher
+  foreign-toplevel
+  grid
+  gtk-shell
+  idle
+  ipc
+  ipc-rules
+  move
+  oswitch
+  place
+  resize
+  session-lock
+  shortcuts-inhibit
+  switcher
+  vswitch
+  wayfire-shell
+  window-rules
+  wm-actions
+'
+
+FULL_PLUGINS='
+  alpha
+  animate
+  autostart
+  blur
+  command
+  cube
+  decoration
+  expo
+  fast-switcher
+  fisheye
+  foreign-toplevel
+  grid
+  gtk-shell
+  idle
+  invert
+  ipc
+  ipc-rules
+  move
+  oswitch
+  place
+  resize
+  scale
+  session-lock
+  shortcuts-inhibit
+  switcher
+  vswitch
+  wayfire-shell
+  window-rules
+  wm-actions
+  wrot
+  zoom
+'
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+die() {
+    notify-send -u critical "Wayfire Profile" "$1" 2>/dev/null || true
+    printf 'Error: %s\n' "$1" >&2
+    exit 1
+}
+
+get_current_mode() {
+    if [[ -f "$STATE_FILE" ]]; then
+        case "$(cat "$STATE_FILE")" in
+            light|normal|full)
+                cat "$STATE_FILE"
+                return
+                ;;
+        esac
+    fi
+
+    echo "normal"
+}
+
+plugins_for_mode() {
+    case "$1" in
+        light)  printf '%s\n' "$LIGHT_PLUGINS" ;;
+        normal) printf '%s\n' "$NORMAL_PLUGINS" ;;
+        full)   printf '%s\n' "$FULL_PLUGINS" ;;
+        *) die "Unknown profile: $1" ;;
+    esac
+}
+
+
+# ---------------------------------------------------------------------------
+# Choose profile
+# ---------------------------------------------------------------------------
+
+CURRENT_MODE="$(get_current_mode)"
+
+CHOICE="$(
+    printf '%s\n' \
+        "LIGHT    Gaming / maximum performance" \
+        "NORMAL   Daily work" \
+        "FULL     Effects / unixporn" |
+    rofi \
+        -dmenu \
+        -i \
+        -config "$HOME/.config/rofi/wayfire-profile.rasi" \
+        -p "Wayfire" \
+        -no-custom \
+        -selected-row "$(
+            case "$CURRENT_MODE" in
+                light)  echo 0 ;;
+                normal) echo 1 ;;
+                full)   echo 2 ;;
+            esac
+        )"
+)" || exit 0
+
+case "$CHOICE" in
+    "LIGHT"*)
+        MODE="light"
+        ;;
+    "NORMAL"*)
+        MODE="normal"
+        ;;
+    "FULL"*)
+        MODE="full"
+        ;;
+    *)
+        exit 0
+        ;;
+esac
+
+
+# ---------------------------------------------------------------------------
+# Don't rewrite the config unnecessarily
+# ---------------------------------------------------------------------------
+
+if [[ "$MODE" == "$CURRENT_MODE" ]]; then
+    exit 0
+fi
+
+
+# ---------------------------------------------------------------------------
+# Safety backup
+# ---------------------------------------------------------------------------
+
+if [[ ! -f "$CONFIG" ]]; then
+    die "Wayfire config not found: $CONFIG"
+fi
+
+cp "$CONFIG" "$CONFIG.before-profile-change"
+
+
+# ---------------------------------------------------------------------------
+# Replace only the [core] plugins value.
+#
+# Python is used instead of fragile sed/awk because the plugins option is
+# multiline and uses backslash continuations.
+# ---------------------------------------------------------------------------
+
+export CONFIG MODE
+
+python3 <<'PY'
+import os
+import re
+import tempfile
+
+config = os.environ["CONFIG"]
+mode = os.environ["MODE"]
+
+profiles = {
+    "light": [
+        "alpha",
+        "autostart",
+        "command",
+        "decoration",
+        "expo",
+        "fast-switcher",
+        "foreign-toplevel",
+        "grid",
+        "gtk-shell",
+        "idle",
+        "ipc",
+        "ipc-rules",
+        "move",
+        "oswitch",
+        "place",
+        "resize",
+        "session-lock",
+        "shortcuts-inhibit",
+        "vswitch",
+        "wayfire-shell",
+        "window-rules",
+        "wm-actions",
+    ],
+
+    "normal": [
+        "alpha",
+	"animate",
+        "autostart",
+        "command",
+        "decoration",
+        "expo",
+        "fast-switcher",
+        "foreign-toplevel",
+        "grid",
+        "gtk-shell",
+        "idle",
+        "ipc",
+        "ipc-rules",
+        "move",
+        "oswitch",
+        "place",
+        "resize",
+        "session-lock",
+        "shortcuts-inhibit",
+        "switcher",
+        "vswitch",
+        "wayfire-shell",
+        "window-rules",
+        "wm-actions",
+    ],
+
+    "full": [
+        "alpha",
+        "animate",
+        "autostart",
+        "blur",
+        "command",
+        "cube",
+        "decoration",
+        "expo",
+        "fast-switcher",
+        "fisheye",
+        "foreign-toplevel",
+        "grid",
+        "gtk-shell",
+        "idle",
+        "invert",
+        "ipc",
+        "ipc-rules",
+        "move",
+        "oswitch",
+        "place",
+        "resize",
+        "scale",
+        "session-lock",
+        "shortcuts-inhibit",
+        "switcher",
+        "vswitch",
+        "wayfire-shell",
+        "window-rules",
+        "wm-actions",
+        "wrot",
+        "zoom",
+    ],
+}
+
+plugins = profiles[mode]
+
+plugin_block = "plugins = \\\n" + "".join(
+    f"  {plugin}" + (" \\\n" if i < len(plugins) - 1 else "\n")
+    for i, plugin in enumerate(plugins)
+)
+
+with open(config, "r", encoding="utf-8") as f:
+    data = f.read()
+
+# Find the plugins assignment inside [core].
+pattern = re.compile(
+    r"(\[core\]\s*.*?^plugins\s*=\s*\\\n)"
+    r"(?:^[ \t]+[A-Za-z0-9_-]+(?:\s+\\)?\n)+",
+    re.MULTILINE | re.DOTALL,
+)
+
+match = pattern.search(data)
+
+if not match:
+    raise SystemExit("Could not find [core] plugins block")
+
+replacement = match.group(1).split("plugins =", 1)[0] + plugin_block
+
+data = data[:match.start()] + replacement + data[match.end():]
+
+# Atomic replacement: write a temporary file and rename it.
+directory = os.path.dirname(config) or "."
+fd, tmp = tempfile.mkstemp(prefix=".wayfire.ini.", dir=directory)
+
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(data)
+
+    os.replace(tmp, config)
+
+except Exception:
+    try:
+        os.unlink(tmp)
+    except FileNotFoundError:
+        pass
+    raise
+PY
+
+
+# ---------------------------------------------------------------------------
+# Store state
+# ---------------------------------------------------------------------------
+
+printf '%s\n' "$MODE" > "$STATE_FILE"
+
+
+# ---------------------------------------------------------------------------
+# Notification
+# ---------------------------------------------------------------------------
+
+case "$MODE" in
+    light)
+        ICON=""
+        TITLE="Wayfire: LIGHT"
+        MESSAGE="Gaming / maximum performance"
+        ;;
+    normal)
+        ICON=""
+        TITLE="Wayfire: NORMAL"
+        MESSAGE="Daily work profile"
+        ;;
+    full)
+        ICON=""
+        TITLE="Wayfire: FULL"
+        MESSAGE="Effects / unixporn profile"
+        ;;
+esac
+
+notify-send \
+    -t 2200 \
+    "$ICON $TITLE" \
+    "$MESSAGE" 2>/dev/null || true
+
+exit 0

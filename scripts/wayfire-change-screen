@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Override this if automatic connector-name detection is insufficient.
+INTERNAL="${WAYFIRE_INTERNAL_OUTPUT:-}"
+
+mapfile -t OUTPUTS < <(
+    wlr-randr | awk '/^[^[:space:]].*"/ { print $1 }'
+)
+
+if [[ -z "$INTERNAL" ]]; then
+    for output in "${OUTPUTS[@]}"; do
+        if [[ "$output" =~ ^(eDP|LVDS|DSI|LCD) ]]; then
+            INTERNAL="$output"
+            break
+        fi
+    done
+fi
+
+if [[ -z "$INTERNAL" ]]; then
+    notify-send "Display menu"         "Cannot identify the internal display. Set WAYFIRE_INTERNAL_OUTPUT in this script."
+    exit 1
+fi
+
+EXTERNALS=()
+for output in "${OUTPUTS[@]}"; do
+    [[ "$output" == "$INTERNAL" ]] || EXTERNALS+=("$output")
+done
+
+if ((${#EXTERNALS[@]} == 0)); then
+    notify-send "Display menu"         "No external display detected."
+    exit 1
+fi
+
+# Get the width of the current mode, falling back to the first
+# advertised mode if the output is currently disabled.
+output_width() {
+    wlr-randr | awk -v wanted="$1" '
+        $1 == wanted { inside=1; next }
+        inside && /^[^[:space:]]/ { exit }
+        inside && /[0-9]+x[0-9]+/ {
+            if (match($0, /[0-9]+x[0-9]+/)) {
+                mode = substr($0, RSTART, RLENGTH)
+                split(mode, dimensions, "x")
+                if ($0 ~ /\(current\)/) {
+                    print dimensions[1]
+                    found=1
+                    exit
+                }
+                if (first == "")
+                    first=dimensions[1]
+            }
+        }
+        END {
+            if (!found && first != "")
+                print first
+        }
+    '
+}
+
+INTERNAL_WIDTH="$(output_width "$INTERNAL")"
+[[ "$INTERNAL_WIDTH" =~ ^[0-9]+$ ]] ||
+    { notify-send "Display menu" "Cannot determine internal display width."; exit 1; }
+
+CHOICE="$(
+    printf '%s\n' Laptop Mirror Extend External |
+        rofi -dmenu -i -no-custom             -config "$HOME/.config/rofi/display.rasi"             -p "Display"
+)" || exit 0
+
+case "$CHOICE" in
+    Laptop)
+        wlr-randr --output "$INTERNAL" --on --pos 0,0
+        for output in "${EXTERNALS[@]}"; do
+            wlr-randr --output "$output" --off
+        done
+        ;;
+
+    Mirror)
+        wlr-randr --output "$INTERNAL" --on --pos 0,0
+        for output in "${EXTERNALS[@]}"; do
+            wlr-randr --output "$output" --on --pos 0,0
+        done
+        ;;
+
+    Extend)
+        wlr-randr --output "$INTERNAL" --on --pos 0,0
+        x="$INTERNAL_WIDTH"
+        for output in "${EXTERNALS[@]}"; do
+            wlr-randr --output "$output" --on --pos "$x",0
+            width="$(output_width "$output")"
+            [[ "$width" =~ ^[0-9]+$ ]] ||
+                { notify-send "Display menu" "Cannot determine width of $output."; exit 1; }
+            x=$((x + width))
+        done
+        ;;
+
+    External)
+        wlr-randr --output "$INTERNAL" --off
+        x=0
+        for output in "${EXTERNALS[@]}"; do
+            wlr-randr --output "$output" --on --pos "$x",0
+            width="$(output_width "$output")"
+            [[ "$width" =~ ^[0-9]+$ ]] ||
+                { notify-send "Display menu" "Cannot determine width of $output."; exit 1; }
+            x=$((x + width))
+        done
+        ;;
+
+    *)
+        exit 0
+        ;;
+esac

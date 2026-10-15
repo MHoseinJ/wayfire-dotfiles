@@ -1,0 +1,6 @@
+*.bak
+*.before-profile-change
+*.tmp
+*.log
+waybar-tools/docker-stats/docker-stats
+waybar-tools/weather-stats/weather-stats

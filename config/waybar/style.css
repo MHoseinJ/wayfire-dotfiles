@@ -1,0 +1,247 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", "Inter", "Roboto", sans-serif;
+    font-size: 12px;
+    min-height: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ========================================
+   TOP BAR STYLES
+   ======================================== */
+window#waybar.top {
+    background-color: rgba(0, 0, 0, 1);
+    color: #ffffff;
+    margin: 0;
+}
+
+window#waybar.top #workspaces,
+window#waybar.top #clock,
+window#waybar.top #battery,
+window#waybar.top #pulseaudio,
+window#waybar.top #network,
+window#waybar.top #custom-weather,
+window#waybar.top #custom-power,
+window#waybar.top #tray {
+    background: transparent;
+    color: #ffffff;
+    padding: 0 8px;
+    margin: 0;
+    border-radius: 0;
+}
+
+window#waybar.top #workspaces button.active {
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
+window#waybar.top #clock {
+    font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+window#waybar.top #battery.warning { color: #ff9999; }
+
+window#waybar.top #custom-search {padding: 0 8px;}
+
+/* Top bar hover effects */
+window#waybar.top #custom-search:hover,
+window#waybar.top #clock:hover,
+window#waybar.top #battery:hover,
+window#waybar.top #pulseaudio:hover,
+window#waybar.top #custom-power:hover,
+window#waybar.top #custom-weather:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+
+/* ========================================
+   BOTTOM FLOATING DOCK
+   ======================================== */
+window#waybar.bottom {
+    /* The Waybar window background must be transparent so the margin gaps look empty */
+    background: transparent;
+}
+
+window#waybar.bottom #taskbar {
+    /* The actual dock "pill" background */
+    background: #212121;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.3) inset;
+    padding: 4px 12px;
+    /* margin-bottom: 4px; Slight gap from the absolute bottom edge of the margin */
+}
+
+window#waybar.bottom #taskbar button {
+    border-radius: 14px;
+    padding: 5px;
+    margin: 0 3px;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+window#waybar.bottom #taskbar button.active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+window#waybar.bottom #taskbar button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ========================================
+   GNOME-STYLE WORKSPACE INDICATORS (Padding Method)
+   ======================================== */
+
+/* ========================================
+   GNOME-STYLE WORKSPACES - SMALLER
+   ======================================== */
+
+/* Optional container around all workspace buttons
+window#waybar.top #workspaces {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+
+    margin: 6px 8px;
+
+    padding: 0 8px;
+    border: none;
+    min-height: 0;
+} */
+
+/* Inactive workspace: small gray dot */
+window#waybar.top #workspaces button {
+    font-size: 0;
+    color: transparent;
+
+    background-color: #7a7a7a;
+    border-radius: 999px;
+
+    /*
+       padding: 3px means:
+       3px top + 3px bottom = 6px height
+       3px left + 3px right = 6px width
+    */
+    padding: 0 3px;
+
+    /*
+       Centers the 6px dot inside the 18px container:
+       18px container - 6px dot = 12px leftover
+       12px / 2 = 6px top and bottom margin
+    */
+    margin: 6px 3px;
+
+    border: none;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* Active workspace: white pill */
+window#waybar.top #workspaces button.focused {
+    background-color: #ffffff;
+
+    /*
+       Keep y small, increase x for the pill.
+       3px top/bottom = 6px height
+       10px left/right = 20px width
+    */
+    padding: 0px 30px;
+}
+
+/* Hover */
+window#waybar.top #workspaces button:hover {
+    background-color: #aaaaaa;
+}
+
+window#waybar.top #workspaces button.focused:hover {
+    background-color: #e0e0e0;
+}
+
+/* ========================================
+   BOTTOM FLOATING DOCK
+   ======================================== */
+window#waybar.bottom {
+    background: transparent;
+}
+
+/* Taskbar pill — square left corner to connect with showapps */
+window#waybar.bottom #taskbar {
+    background: #212121;
+    border-radius: 0 22px 22px 0;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.3) inset;
+
+    /* top right bottom left */
+    padding: 1px 1px 1px 6px;
+    margin: 0;
+}
+
+/* Taskbar buttons: transparent background by default */
+window#waybar.bottom #taskbar button {
+    background: transparent;
+    border-radius: 14px;
+    padding: 5px;
+    margin: 0 3px;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+window#waybar.bottom #taskbar button.active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+window#waybar.bottom #taskbar button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Show Apps button — rounded left cap, flush against taskbar */
+window#waybar.bottom #custom-showapps {
+    background: #212121;
+    border-radius: 18px 0 0 18px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.3) inset;
+
+    /* Widen the left cap */
+    padding: 4px 4px 4px 18px;
+    margin: 0;
+    font-size: 40px;
+    color: #e0e0e0;
+}
+
+window#waybar.bottom {
+    background: transparent;
+}
+
+window#waybar.bottom #dock {
+    background: #212121;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.3) inset;
+    padding: 1px 5px;
+}
+
+window#waybar.bottom #dock #custom-showapps,
+window#waybar.bottom #dock #taskbar {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+window#waybar.bottom #dock #taskbar button {
+    background: transparent;
+    border-radius: 14px;
+    padding: 3px 5px;
+    margin: 0 3px;
+}
+
+window#waybar.bottom #dock #taskbar button.active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+window#waybar.bottom #dock #taskbar button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+window#waybar.bottom #dock #custom-showapps {
+    padding: 1px 8px 1px 10px;
+    font-size: 32px;
+    color: #e0e0e0;
+}
