@@ -24,6 +24,3 @@ Set WAYFIRE_WALLPAPER_DIR to override the default ~/Wallpapers directory.
 
 The Orchis GTK theme and Papirus icons are external dependencies, not
 included or claimed as original work by this project.
-
-Custom Go tools are provided as source code. Build them for your system
-rather than relying on precompiled binaries.

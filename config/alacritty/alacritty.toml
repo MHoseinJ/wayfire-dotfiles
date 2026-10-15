@@ -2,7 +2,7 @@
 shell = "fish"
 
 [font]
-normal = { family = "UbuntuMono Nerd Font Mono" }
+normal = { family = "AdwaitaMono" }
 size = 14.0
 
 [window]
