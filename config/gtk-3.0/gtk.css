@@ -1,1 +1,5 @@
-.titlebar, .menu, .context-menu, .csd menu {background: rgba(20,20,20,0.7);}
+.titlebar, .menu, .context-menu, .csd menu {background: rgba(20,20,20,0.75);}
+
+window {
+    border-radius: 5px !important;
+}
