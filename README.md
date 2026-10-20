@@ -17,6 +17,10 @@ My Wayfire desktop configuration for Arch Linux. It includes Wayfire profiles, W
 
 Install the applications you want to use from this configuration. Some are launched directly by the Wayfire config; others are only needed for the corresponding menu, script, or feature.
 
+### Optional
+
+- [`fetch`](https://github.com/areofyl/fetch) — animated terminal system-info display. Not required for the desktop configuration.
+
 ### Desktop and session
 
 - Wayfire, with the plugins enabled in `config/wayfire/wayfire.ini`
