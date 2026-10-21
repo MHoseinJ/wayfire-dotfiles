@@ -52,18 +52,22 @@ The configs also reference `JetBrainsMono Nerd Font` in Wayfire and Waybar, so i
 - `wl-clipboard` (`wl-copy`, `wl-paste`) and `cliphist` — clipboard features
 - `grim` and `slurp` — screenshots
 - `wdisplays` and `kanshi` — display configuration
-- `mako` — notifications
+- `swaync` — notification center and quick settings
 - `swayidle` and `swaylock` — idle handling and screen lock
 - `wlsunset` — color temperature
 - `paplay` — login sound
-- `amixer` — volume keybindings
+- `amixer` (`alsa-utils`) — audio keybindings and quick settings
+- `nm-connection-editor` — network settings launcher
+- `blueman` — Bluetooth manager, if Bluetooth controls are used
+- `nwg-look` — GTK theme configuration
+- `ddcutil` — external monitor brightness control
+- `ydotool` — keyboard input simulation for the show-apps shortcut
+- `python-wayfire` — Python bindings for Wayfire IPC, used by the workspace script
 - `polkit-gnome` — authentication agent, if using the configured path
 - `awww` — wallpaper daemon
 - `notify-send` — profile-change notifications
 
-The configuration also calls `wayfire-toggle-perf`, `wayfire-change-screen`,
-`change-background`, and `monitor-brightness`. Install or configure any
-dependencies those scripts require.
+The configuration also calls `wayfire-toggle-perf`, `wayfire-change-screen`, and `change-background`. Install or configure any dependencies those scripts require.
 
 ## Install
 
