@@ -1,0 +1,475 @@
+
+/* ========================================
+   ROFI ONEDARK — SWAYNC
+   Adwaita Sans · Minimal · Monochrome
+   ======================================== */
+
+/* Palette adapted from Rofi shared/colors/colors/onedark.rasi */
+
+@define-color background #050505dd;
+@define-color background-alt #282828;
+@define-color foreground #ffffff;
+@define-color selected #a0a0a0;
+@define-color active #9f9f9f;
+@define-color urgent #e06c75;
+@define-color subtle rgba(255, 255, 255, 0.05);
+@define-color hover rgba(255, 255, 255, 0.10);
+@define-color border rgba(160, 160, 160, 0.65);
+
+/* Global typography */
+
+* {
+    font-family: "Adwaita Sans", sans-serif;
+    font-size: 15px;
+    color: @foreground;
+}
+
+/* Avoid a visible background on the unused window */
+
+.blank-window {
+    background: transparent;
+}
+
+/* ========================================
+   CONTROL CENTER
+   ======================================== */
+
+.control-center {
+    background-color: @background;
+    border-radius: 12px;
+    box-shadow: none;
+    margin: 12px;
+    padding: 12px;
+}
+
+/* ========================================
+   NOTIFICATION LIST
+   ======================================== */
+
+.control-center .notification-row {
+    margin: 0;
+    padding: 0;
+}
+
+.control-center .notification-row .notification-background {
+    background-color: @background-alt;
+    border-radius: 10px;
+    margin: 4px 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.control-center .notification-row .notification-background:hover {
+    background-color: #303030;
+    border-color: @selected;
+}
+
+.control-center .notification {
+    background: transparent;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+.control-center .notification-content {
+    margin: 8px;
+    padding: 0;
+}
+
+.summary {
+    color: @foreground;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.body {
+    color: #d0d0d0;
+    font-size: 13px;
+}
+
+.time {
+    color: @selected;
+    font-size: 11px;
+}
+
+.image {
+    margin: 6px;
+}
+
+.notification.critical .summary {
+    color: @urgent;
+}
+
+/* Notification action buttons */
+
+.notification-action {
+    background-color: @subtle;
+    border-radius: 10px;
+    margin: 4px;
+    padding: 6px 10px;
+}
+
+.notification-action:hover {
+    background-color: @hover;
+    border-color: @selected;
+}
+
+.notification-action:active {
+    background-color: @selected;
+    color: #000000;
+}
+
+/* Close button */
+
+.close-button {
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 6px;
+    padding: 3px;
+}
+
+.close-button:hover {
+    background-color: @hover;
+    border-color: @selected;
+}
+
+.close-button:active {
+    background-color: @selected;
+    color: #000000;
+}
+
+/* ========================================
+   NOTIFICATION GROUPS
+   ======================================== */
+
+.notification-group {
+    margin: 4px 0;
+}
+
+.notification-group-headers {
+    color: @foreground;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 4px;
+}
+
+.notification-group-icon {
+    color: @selected;
+}
+
+.notification-group-collapse-button,
+.notification-group-close-all-button {
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 4px;
+    padding: 5px;
+}
+
+.notification-group-collapse-button:hover,
+.notification-group-close-all-button:hover {
+    background-color: @hover;
+    border-color: @selected;
+}
+
+/* ========================================
+   WIDGET: TITLE
+   ======================================== */
+
+.widget-title {
+    color: @foreground;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 2px 10px;
+}
+
+.widget-title button {
+    background-color: @subtle;
+    border-radius: 10px;
+    padding: 6px 10px;
+}
+
+.widget-title button:hover {
+    background-color: @hover;
+    border-color: @selected;
+}
+
+.widget-title button:active {
+    background-color: @selected;
+    color: #000000;
+}
+
+/* ========================================
+   WIDGET: DO NOT DISTURB
+   ======================================== */
+
+.widget-dnd {
+    background-color: @subtle;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 8px 10px;
+}
+
+.widget-dnd:hover {
+    background-color: @hover;
+}
+
+.widget-dnd > switch {
+    background-color: #282828;
+    border-radius: 999px;
+    padding: 2px;
+}
+
+.widget-dnd > switch:checked {
+    background-color: @selected;
+}
+
+.widget-dnd > switch slider {
+    background-color: @foreground;
+    border-radius: 999px;
+}
+
+.widget-dnd > switch:checked slider {
+    background-color: #000000;
+}
+
+/* ========================================
+   WIDGET: QUICK SETTINGS
+   ======================================== */
+
+.widget-buttons-grid {
+    background: transparent;
+    margin: 4px 0 8px;
+    padding: 0;
+}
+
+.widget-buttons-grid flowbox,
+.widget-buttons-grid flowbox flowboxchild {
+    background: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+.widget-buttons-grid flowbox flowboxchild {
+    padding: 2px;
+}
+
+.widget-buttons-grid flowbox flowboxchild button,
+.widget-buttons-grid flowbox flowboxchild button:focus {
+    background: @subtle;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 2px;
+    padding: 10px;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:hover {
+    background: @hover;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:active {
+    background: @selected;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #000000;
+}
+
+.widget-buttons-grid flowbox flowboxchild button,
+.widget-buttons-grid flowbox flowboxchild button:focus {
+    background: @subtle;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 2px;
+    padding: 10px;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:hover {
+    background: @hover;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:active {
+    background: @selected;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #000000;
+}
+
+/* ========================================
+   WIDGET: MUSIC PLAYER
+   ======================================== */
+
+.widget-mpris {
+    background-color: @background-alt;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 6px;
+}
+
+.widget-mpris-player {
+    background-color: @background-alt;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 2px;
+}
+
+.widget-mpris-album-art {
+    border-radius: 8px;
+}
+
+.widget-mpris-title {
+    color: @foreground;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.widget-mpris-subtitle {
+    color: #b0b0b0;
+    font-size: 12px;
+}
+
+.widget-mpris button {
+    background-color: transparent;
+    border-radius: 8px;
+    color: @selected;
+    padding: 5px;
+}
+
+.widget-mpris button:hover {
+    background-color: @hover;
+    border-color: @selected;
+    color: @foreground;
+}
+
+.widget-mpris button:active {
+    background-color: @selected;
+    color: #000000;
+}
+
+/* Keep album art crisp, without an imposed blur effect */
+
+picture.mpris-background {
+    opacity: 0;
+}
+
+/* ========================================
+   SCROLLBARS AND PROGRESS
+   ======================================== */
+
+scrollbar {
+    opacity: 0;
+    min-width: 0;
+    min-height: 0;
+}
+
+scrollbar trough,
+scrollbar slider {
+    background: transparent;
+    border: none;
+    min-width: 0;
+    min-height: 0;
+    opacity: 0;
+}
+
+progressbar trough {
+    background-color: @subtle;
+    border-radius: 0;
+}
+
+progressbar progress {
+    background-color: @selected;
+    border-radius: 0;
+}
+
+/* ========================================
+   EMPTY STATES AND MISC
+   ======================================== */
+
+.widget-label {
+    color: #b0b0b0;
+}
+
+.widget-volume {
+    background-color: @background-alt;
+    border-radius: 10px;
+    margin: 6px 0;
+    padding: 8px;
+}
+
+.widget-volume scale trough {
+    background-color: @subtle;
+}
+
+.widget-volume scale highlight {
+    background-color: @selected;
+}
+
+.widget-volume scale slider {
+    background-color: @foreground;
+    border-radius: 0;
+}
+
+/* ========================================
+   QUICK SETTINGS — SINGLE BACKGROUND
+   Centered · Borderless · Rofi-inspired
+   ======================================== */
+
+.widget-buttons-grid {
+    display: flex;
+    justify-content: center;
+    background: transparent;
+}
+
+.widget-buttons-grid flowbox {
+    background: transparent;
+    border: none;
+}
+
+.widget-buttons-grid flowbox flowboxchild {
+    background: transparent;
+    border: none;
+    padding: 2px;
+}
+
+.widget-buttons-grid flowbox flowboxchild button {
+    background: @subtle;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    min-width: 0;
+    padding: 10px;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:hover,
+.widget-buttons-grid flowbox flowboxchild button:focus {
+    background: @hover;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.widget-buttons-grid flowbox flowboxchild button:active,
+.widget-buttons-grid flowbox flowboxchild button:checked {
+    background: @selected;
+    background-image: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #000000;
+}
