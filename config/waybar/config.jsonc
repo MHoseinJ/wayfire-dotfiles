@@ -1,116 +1,98 @@
-[{
-  "layer": "top",
-  "position": "top",
-  "height": 30,
 
-  "modules-left": ["wayfire/workspaces", "custom/search"],
-
-  "modules-center": ["clock"],
-
-  "modules-right": [
-    "keyboard-state",
-    "tray",
-    "pulseaudio",
-    "battery",
-    "custom/power"
-  ],
-
-  "custom/search": {
-    "format": "Applications",
-    "on-click": "rofi -show drun",
-    "return-type": "text",
-    "interval": "once"
-  },
-
-  "tray": {
-    "icon-size": 18,
-    "spacing": 6
-  },
-
-
-  // 2. Add the wayfire/workspaces configuration
-  "wayfire/workspaces": {
-    "format": "{index}",
-    "all-outputs": true
-  },
-
-
-  "clock": {
-    "format": "{:%a %d %b, %H:%M}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "interval": 60
-  },
-
-  "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": " Muted",
-    "format-icons": {
-      "default": ["", "", ""]
-    },
-    "on-click": "pavucontrol",
-    "scroll-step": 5
-  },
-
-  "battery": {
-    "format": "{icon} {capacity}%",
-    "format-icons": ["", "", "", "", ""],
-    "states": {
-      "warning": 20,
-      "critical": 10
-    }
-  },
-
-  "custom/weather": {
-    "format": "{}",
-    "tooltip": true,
-    "interval": 1800,
-    "exec": "$(pwd)/scripts/weather-stats/weather-stats",
-    "return-type": "json"
-  },
-
-  "custom/power": {
-    "format": "⏻",
-    "on-click": "wlogout &",
-    "tooltip": false
-  }
-}
-,
-
-{
-    // Bottom dock/taskbar
+[
+  {
     "layer": "top",
-    "position": "bottom",
-    "height": 32,
-    "modules-center": ["group/dock"],
+    "position": "top",
+    "height": 30,
 
-    "group/dock": {
-        "orientation": "horizontal",
-        "modules": [
-            "custom/showapps",
-            "wlr/taskbar"
-        ]
+    "modules-left": [
+      "custom/ws1",
+      "custom/ws2",
+      "custom/ws3",
+      "custom/ws4",
+      "custom/search"
+    ],
+
+    "modules-center": ["clock"],
+
+    "modules-right": [
+      "keyboard-state",
+      "tray",
+      "pulseaudio",
+      "battery",
+      "custom/power"
+    ],
+
+    "custom/search": {
+      "format": "Applications",
+      "on-click": "rofi -show drun",
+      "return-type": "text",
+      "interval": "once"
     },
 
-    "custom/showapps": {
-        "format": "󱗼",
-        "on-click": "ydotool key 125:1 24:1 24:0 125:0",
-        "tooltip": false
+    "tray": {
+      "icon-size": 18,
+      "spacing": 6
     },
 
-    "wlr/taskbar": {
-        "format": "{icon}",
-        "icon-size": 34,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close",
-        "active-first": true,
-        "ignore-list": [
-            "rofi",
-            "wofi",
-            "fuzzel",
-            "wlogout"
-        ]
+    "clock": {
+      "format": "{:%a %d %b, %H:%M}  󰂚 ",
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+      "interval": 60,
+      "on-click": "swaync-client -t"
+    },
+
+    "pulseaudio": {
+      "format": "{icon}   {volume}%",
+      "format-muted": " Muted",
+      "format-icons": {
+        "default": ["", "", ""]
+      },
+      "on-click": "pavucontrol",
+      "scroll-step": 5
+    },
+
+    "battery": {
+      "format": "{icon} {capacity}%",
+      "format-icons": ["", "", "", "", ""],
+      "states": {
+        "warning": 20,
+        "critical": 10
+      }
+    },
+
+    "custom/power": {
+      "format": "⏻",
+      "on-click": "wlogout &",
+      "tooltip": false
+    },
+
+    "custom/ws1": {
+      "exec": "~/.local/bin/wayfire-workspaces 0",
+      "return-type": "json",
+      "interval": 1,
+      "on-click": "~/.local/bin/wayfire-workspaces click 0"
+    },
+
+    "custom/ws2": {
+      "exec": "~/.local/bin/wayfire-workspaces 1",
+      "return-type": "json",
+      "interval": 1,
+      "on-click": "~/.local/bin/wayfire-workspaces click 1"
+    },
+
+    "custom/ws3": {
+      "exec": "~/.local/bin/wayfire-workspaces 2",
+      "return-type": "json",
+      "interval": 1,
+      "on-click": "~/.local/bin/wayfire-workspaces click 2"
+    },
+
+    "custom/ws4": {
+      "exec": "~/.local/bin/wayfire-workspaces 3",
+      "return-type": "json",
+      "interval": 1,
+      "on-click": "~/.local/bin/wayfire-workspaces click 3"
     }
-}
-
+  }
 ]
