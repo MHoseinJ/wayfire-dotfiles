@@ -43,32 +43,6 @@
       "text": " ",
       "max-lines": 1
     },
-
-    "buttons-grid": {
-      "actions": [
-        {
-          "label": "",
-          "command": "amixer set Master toggle"
-        },
-        {
-          "label": "",
-          "command": "amixer set Capture toggle"
-        },
-        {
-          "label": "",
-          "command": "nm-connection-editor"
-        },
-        {
-          "label": "󰂯",
-          "command": "blueman-manager"
-        },
-        {
-          "label": "󰏘",
-          "command": "nwg-look"
-        }
-      ]
-    },
-
     "mpris": {
       "image-size": 96,
       "image-radius": 10
