@@ -1,4 +1,4 @@
-@import "/usr/share/rofi/themes/config.rasi"
+@import "/usr/share/rofi/themes/main.rasi"
 
 configuration {
     show-icons: true;

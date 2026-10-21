@@ -1,0 +1,40 @@
+@import "/usr/share/rofi/themes/main.rasi"
+
+configuration {
+    show-icons: false;
+    font: "JetBrainsMono Nerd Font 10";
+}
+
+listview {
+    columns: 1;
+    lines: 10;
+    layout: vertical;
+    fixed-columns: true;
+    fixed-height: true;
+    dynamic: false;
+    scrollbar: false;
+}
+
+element {
+    orientation: horizontal;
+    spacing: 8px;
+    padding: 8px 12px;
+}
+
+element-icon {
+    enabled: false;
+}
+
+element-text {
+    horizontal-align: 0.0;
+    vertical-align: 0.5;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+window {
+    border: none;
+}

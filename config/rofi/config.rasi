@@ -3,4 +3,6 @@
 
 //@theme "/usr/share/rofi/themes/arthur.rasi"
 
-@theme "/usr/share/rofi/themes/config.rasi"
+//@theme "/usr/share/rofi/themes/config.rasi"
+
+@theme "/usr/share/rofi/themes/main.rasi"
