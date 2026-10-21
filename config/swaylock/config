@@ -1,0 +1,34 @@
+# Background
+color=282828
+
+# Font
+font=AdwaitaMono
+font-size=24
+
+# Screenshot and blur
+screenshots
+effect-blur=7x3
+
+# Indicator
+indicator-radius=40
+indicator-thickness=10
+indicator-idle-visible
+
+# Monochrome colors
+inside-color=282828
+ring-color=DDDDDD
+line-color=00000000
+text-color=DDDDDD
+
+# Password verification
+inside-ver-color=282828
+ring-ver-color=DDDDDD
+text-ver-color=DDDDDD
+
+# Wrong password
+inside-wrong-color=282828
+ring-wrong-color=DDDDDD
+text-wrong-color=DDDDDD
+
+# Keyboard
+show-keyboard-layout
