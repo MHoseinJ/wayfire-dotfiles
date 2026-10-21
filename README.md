@@ -1,5 +1,7 @@
 # Wayfire Desktop
 
+![Watch the video](showcase.mp4)
+
 My Wayfire desktop configuration for Arch Linux. It includes Wayfire profiles, Waybar, Rofi, terminal and GTK settings, and helper scripts.
 
 ## Included
