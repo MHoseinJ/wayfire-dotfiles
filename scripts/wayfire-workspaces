@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import json
+import sys
+from wayfire import WayfireSocket
+
+s = WayfireSocket()
+outputs = s.list_outputs()
+if not outputs:
+    print(json.dumps({"text": ""}))
+    raise SystemExit
+
+output = outputs[0]
+workspace = output["workspace"]
+current = workspace["x"]
+count = workspace["grid_width"]
+
+if len(sys.argv) == 3 and sys.argv[1] == "click":
+    target = int(sys.argv[2])
+    if 0 <= target < count:
+        s.set_workspace(target, workspace["y"], output_id=output["id"])
+    raise SystemExit
+
+index = int(sys.argv[1])
+print(json.dumps({
+    "text": "-",
+    "class": "active" if index == current else "inactive",
+    "tooltip": f"Workspace {index + 1}",
+}))
+

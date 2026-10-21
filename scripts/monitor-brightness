@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+    up)
+        ddcutil setvcp 10 + 10
+        ;;
+    down)
+        ddcutil setvcp 10 - 10
+        ;;
+    get)
+        ddcutil getvcp 10
+        ;;
+    *)
+        echo "Usage: monitor-brightness {up|down|get}" >&2
+        exit 2
+        ;;
+esac

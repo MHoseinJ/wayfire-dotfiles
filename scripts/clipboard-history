@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+tmpfile=$(mktemp)
+trap 'rm -f "$tmpfile"' EXIT
+
+# Build a clean menu and keep the IDs separately by line number.
+while IFS=$'\t' read -r id text; do
+    printf '%s\n' "$id" >> "${tmpfile}.ids"
+    display=${text//$'\t'/→}
+    display=${display//$'\n'/ }
+    printf '%s\n' "$display"
+done < <(cliphist list) > "$tmpfile"
+
+trap 'rm -f "$tmpfile" "${tmpfile}.ids"' EXIT
+
+selection=$(rofi -dmenu \
+    -p "Clipboard" \
+    -theme "$HOME/.config/rofi/clipboard" < "$tmpfile")
+
+if [[ -n "$selection" ]]; then
+    # Find the selected line and retrieve its original ID.
+    line=$(grep -nFxm1 -- "$selection" "$tmpfile" | cut -d: -f1)
+    if [[ -n "$line" ]]; then
+        id=$(sed -n "${line}p" "${tmpfile}.ids")
+        cliphist decode <<< "$id" | wl-copy
+    fi
+fi
